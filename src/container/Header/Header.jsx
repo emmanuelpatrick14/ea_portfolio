@@ -1,24 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { images } from "../../constants";
+import images from "../../constants/images"; // ✅ import default export correctly
 import "./Header.scss";
 import { AppWrap } from "../../wrapper";
 
 const Header = () => {
-  const texts = ["Emmanuel Patrick", "A Full Stack Engineer","A Web Developer", ];
+  const texts = ["Emmanuel Patrick", "A Full Stack Engineer", "A Web Developer"];
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [currentText, setCurrentText] = useState(texts[0]);
 
+  // ✅ Fix 1: Include 'texts.length' in the dependency array
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentTextIndex((prevIndex) => (prevIndex + 1) % texts.length);
-    }, 4000); 
-    return () => clearInterval(intervalId); // Cleanup on component unmount
-  }, []);
+    }, 4000);
 
+    return () => clearInterval(intervalId);
+  }, [texts.length]); // dependency added
+
+  // ✅ Fix 2: Include 'texts' and 'currentTextIndex' in dependency array
   useEffect(() => {
     setCurrentText(texts[currentTextIndex]);
-  }, [currentTextIndex]);
+  }, [currentTextIndex, texts]); // dependencies added
 
   return (
     <div className="app__header app__flex">
@@ -29,11 +32,11 @@ const Header = () => {
       >
         <div className="app__header-intro">
           <div className="intro-cmp app__flex">
-            <p className="p-text">
-              Welcome to my portfolio website
-            </p>
-            <div style={{}}>
-              <h1 className="head-text">👋 Hi, I'm <span style={{color:"#314bac"}}>{currentText}</span></h1>
+            <p className="p-text">Welcome to my portfolio website</p>
+            <div>
+              <h1 className="head-text">
+                👋 Hi, I'm <span style={{ color: "#314bac" }}>{currentText}</span>
+              </h1>
             </div>
           </div>
 
