@@ -47,7 +47,7 @@ const Header = () => {
 
           <div className="tag-cmp app__flex">
             <p className="app__head-desc">
-              I'm a dynamic Full Stack Developer with two years of experience in
+              I'm a dynamic Full Stack Developer with 2½ years of experience in
               the tech industry. I enjoy crafting web applications that offer smooth
               and engaging user experiences. Proficient in frontend frameworks like
               React and Next.js, as well as backend using Express.js and NestJs. I
