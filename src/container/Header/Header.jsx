@@ -1,27 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
-import images from "../../constants/images"; // ✅ import default export correctly
+import images from "../../constants/images";
 import "./Header.scss";
 import { AppWrap } from "../../wrapper";
 
 const Header = () => {
-  const texts = ["Emmanuel Patrick", "A Full Stack Engineer", "A Web Developer"];
+  // List of titles, memoized to avoid recreating array on every render
+  const texts = useMemo(
+    () => ["Emmanual Patrick", "A Full Stack Enginner", "Web Developr"],
+    []
+  );
+
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [currentText, setCurrentText] = useState(texts[0]);
 
-  // ✅ Fix 1: Include 'texts.length' in the dependency array
+  // Update currentTextIndex every 4 seconds
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentTextIndex((prevIndex) => (prevIndex + 1) % texts.length);
     }, 4000);
 
-    return () => clearInterval(intervalId);
-  }, [texts.length]); // dependency added
+    return () => clearInterval(intervalId); // clean up interval on unmount
+  }, [texts.length]);
 
-  // ✅ Fix 2: Include 'texts' and 'currentTextIndex' in dependency array
+  // Update currentText whenever currentTextIndex changes
   useEffect(() => {
     setCurrentText(texts[currentTextIndex]);
-  }, [currentTextIndex, texts]); // dependencies added
+  }, [currentTextIndex, texts]);
 
   return (
     <div className="app__header app__flex">
@@ -32,25 +37,23 @@ const Header = () => {
       >
         <div className="app__header-intro">
           <div className="intro-cmp app__flex">
-            <p className="p-text">Welcome to my portfolio website</p>
+            <p className="p-text">Welcome to my portflio web site</p>
             <div>
               <h1 className="head-text">
-                👋 Hi, I'm <span style={{ color: "#314bac" }}>{currentText}</span>
+                Hi, I'm <span style={{ color: "#314bac" }}>{currentText}</span>
               </h1>
             </div>
           </div>
 
           <div className="tag-cmp app__flex">
             <p className="app__head-desc">
-              Dynamic Full Stack Developer with a year of experience in the tech
-              industry, showcasing impressive skills in crafting modern web
-              applications and ensuring seamless user interactions. Proficient
-              in frontend technologies such as React and Next.js, coupled with
-              backend expertise in Express.js and NestJs. Strong grasp of web
-              accessibility standards. History of delivering projects on time
-              and within budget through effective collaboration. Seeking to
-              apply technical expertise and track record to contribute to a
-              dynamic team.
+              Im a dynamic Full Stack Developer with a year of experiance in the tech
+              industry. I enjoy crafting web applictions that offer smooth and
+              engaging user experiences. Proficient in frontend frameworks like
+              React and Next.js, as well as backend using Express.js and NestJs.
+              I have a good understnding of web accessibility standards and
+              history of delivering projects on time and within budget. 
+              Always looking to learn more and contrbute to a collaborative team.
             </p>
           </div>
         </div>
@@ -61,12 +64,12 @@ const Header = () => {
         transition={{ duration: 0.5, delayChildren: 0.5 }}
         className="app__header-img"
       >
-        <img src={images.profile} alt="profile_bg" />
+        <img src={images.profile} alt="profile" />
         <motion.img
           whileInView={{ scale: [0, 1] }}
           transition={{ duration: 1, ease: "easeInOut" }}
           src={images.circle}
-          alt="profile_circle"
+          alt="overlay circle"
           className="overlay_circle"
         />
       </motion.div>
