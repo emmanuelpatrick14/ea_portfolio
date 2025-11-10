@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
-import images from "../../constants/images"; // overlay
+// import images from "../../constants/images"; // overlay
 import "./Header.scss";
 import { AppWrap } from "../../wrapper";
 
